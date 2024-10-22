@@ -17,7 +17,7 @@ Future<void> init() async {
 
   // Repositories
   getIt.registerLazySingleton(() => AuthRepository(secureStorage: getIt()));
-  getIt.registerLazySingleton(() => PostRepository(apiService: getIt(), authRepository: getIt()));
+  getIt.registerLazySingleton(() => PostRepository(apiService: getIt()));
 
   // Cubits
   getIt.registerFactory(() => LoginCubit(authRepository: getIt()));
