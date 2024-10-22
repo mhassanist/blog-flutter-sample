@@ -1,3 +1,4 @@
+import 'package:blog/errors/app_error_extensions.dart';
 import 'package:blog/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,9 +18,9 @@ class PostsScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is PostsError) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
+              SnackBar(content: Text(AppErrorLocalization.getErrorMessage(context, state.error.code))),
             );
-            if (state.message == 'User not authenticated') {
+            if ("state.message" == 'User not authenticated') {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (_) => LoginScreen()),
               );
@@ -35,7 +36,7 @@ class PostsScreen extends StatelessWidget {
           } else if (state is PostsLoaded) {
             return _buildPostList(state.posts);
           } else if (state is PostsError) {
-            return Center(child: Text('Error: ${state.message}'));
+            return Center(child: Text('Error: ${"state.message"}'));
           }
           return const SizedBox.shrink();
         },

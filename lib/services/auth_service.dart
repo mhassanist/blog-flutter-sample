@@ -1,21 +1,24 @@
 import 'dart:async';
+import 'dart:math';
+import 'package:blog/errors/app_error.dart';
+import 'package:blog/models/user.dart';
 
 class AuthenticationException implements Exception {
   final String message;
   AuthenticationException(this.message);
 }
 
-class FakeAuthService {
-  Future<String> login(String email, String password) async {
-
-    //post request to server 
+class AuthService {
+  Future<User> login(String email, String password) async {
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 2));
 
-    if (email == 'test@example.com' && password == 'password123') {
-      return 'fake_jwt_token';
-    } else {
-      throw AuthenticationException('Invalid email or password');
+    //random success or failure
+    final random = Random();
+    if (random.nextBool()) {
+      throw const NotAuthorized();
+    } else{
+      return const User(id: 100, name: "name", email: "email", token: "token");
     }
   }
 

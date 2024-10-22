@@ -6,6 +6,7 @@ import 'package:blog/cubits/posts_cubit.dart';
 import 'package:blog/ui/screens/login_screen.dart';
 import 'package:blog/ui/screens/posts_screen.dart';
 import 'package:blog/repositories/auth_repository.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.getIt<PostsCubit>()),
       ],
       child: MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
         title: 'Blog',
         theme: ThemeData(primarySwatch: Colors.blue),
         home: FutureBuilder<bool>(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:blog/errors/app_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:blog/models/post.dart';
 
@@ -18,9 +19,9 @@ class PostApiService {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((json) => Post.fromJson(json)).toList();
     } else if (response.statusCode == 401) {
-      throw Exception('Unauthorized');
+      throw const NotAuthorized();
     } else {
-      throw Exception('Failed to load posts');
+      throw const NetworkError();
     }
   }
 }

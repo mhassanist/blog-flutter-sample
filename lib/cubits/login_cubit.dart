@@ -15,7 +15,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       // Simulate login
       await Future.delayed(Duration(seconds: 2));
-      await _authRepository.saveToken('fake_token');
+      
       emit(LoginSuccess());
     } catch (e) {
       emit(LoginFailure(e.toString()));

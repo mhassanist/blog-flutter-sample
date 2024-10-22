@@ -1,10 +1,14 @@
+import 'package:blog/errors/app_error.dart';
+import 'package:blog/errors/error_constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:blog/models/post.dart';
 import 'package:blog/repositories/post_repository.dart';
 
-
 class PostsCubit extends Cubit<PostsState> {
+  //TODO: Inject PostRepository using get_it
+
   final PostRepository _postRepository;
 
   PostsCubit({required PostRepository postRepository})
@@ -15,13 +19,21 @@ class PostsCubit extends Cubit<PostsState> {
     emit(PostsLoading());
     try {
       final posts = await _postRepository.getPosts();
+
       emit(PostsLoaded(posts));
-    } catch (e) {
-      emit(PostsError(e.toString()));
+    } on AppError catch (e) {
+      emit(PostsError(e));
+    } catch (e, stackTrace) {
+      // Log unexpected errors or send them to a monitoring service
+      if (kDebugMode) {
+        print('Unexpected error: $e');
+        print(stackTrace);
+      }
+
+      rethrow;
     }
   }
 }
-
 
 abstract class PostsState extends Equatable {
   const PostsState();
@@ -44,10 +56,10 @@ class PostsLoaded extends PostsState {
 }
 
 class PostsError extends PostsState {
-  final String message;
+  final AppError error;
 
-  const PostsError(this.message);
+  const PostsError(this.error);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [error];
 }

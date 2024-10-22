@@ -1,0 +1,8 @@
+{
+    "appTitle": "My App",
+    "welcomeMessage": "مرحباً بالعالم",
+    "networkErrorMessage": "لا يوجد اتصال بالإنترنت",
+    "unauthorizedMessage": "غير مصرح",
+    "invalidTokenMessage": "رمز مميز غير صالح",
+    "genericErrorMessage": "حدث خطأ ما"
+}
